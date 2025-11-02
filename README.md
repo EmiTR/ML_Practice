@@ -3,15 +3,12 @@ To demonstrate how I use machine learning (ML) and advanced analytics to solve b
 
 # Car Price Prediction – Linear Regression
 
-## 🎯 Goal of the Workbook
+## Goal of the Workbook
 The primary objective of this project was to **refresh and deepen my machine learning skills**, which I originally learned in 2022.  
-Using **Linear Regression** as the core algorithm, I revisited the complete ML workflow — from data processing and feature engineering to model training, evaluation, and interpretation.  
+Using **Linear Regression** as the core algorithm, I revisited the complete ML workflow: from data processing and feature engineering to model training, evaluation, and interpretation.  
 
-This notebook aims to both reinforce theory and demonstrate practical implementation of regression analysis step by step.
 
----
-
-## 🧱 Structure of the Workbook
+## Structure of the Workbook
 1. **Data Loading and Exploration**  
    Inspect dataset structure, identify missing values, check distributions, and understand correlations between key features.
 
@@ -38,11 +35,9 @@ This notebook aims to both reinforce theory and demonstrate practical implementa
 
 ---
 
-## 🚗 The Data
-The dataset contains car listings with features such as:
-- `make`, `model`, `year`, `engine_hp`, `engine_fuel_type`
-- `vehicle_size`, `vehicle_style`, `driven_wheels`, `number_of_doors`
-- `city_mpg`, `highway_mpg`, and other descriptors  
+## The Data
+I use a Kaggle dataset for this project, as my goal is to focus on practicing the machine learning workflow rather than generating or simulating data.
+Dataset link: [Kaggle – Car Dataset](https://www.kaggle.com/datasets/CooperUnion/cardataset)
 
 The target variable is **`msrp`** (price).  
 To make the relationship between features and price more linear, the target was log-transformed before training.
@@ -55,7 +50,7 @@ Feature engineering steps included:
 
 ---
 
-## 📈 Results Interpretation
+## Results Interpretation
 ### Performance in Log-space  
 - **R²:** ~0.805 — model explains ~80% of log-price variance  
 - **RMSE (log):** 0.49 → predictions typically within a factor of ~1.6 of true price  
@@ -66,12 +61,12 @@ Feature engineering steps included:
 - **MAE:** ~€14,503  
 
 **Interpretation:**  
-The model captures relative price differences well in log-space, but when unlogged, absolute prediction errors grow with price magnitude.  
-This is expected for linear regression on highly skewed price data — expensive cars dominate total variance.
+The model captures relative price differences well in the log-transformed space. However, after reversing the log transformation, the absolute prediction errors increase with higher car prices.
+This behavior is expected for linear regression when working with highly skewed price data, where luxury cars dominate the overall variance. I discussed possible solutions for this issue in the notebook.
 
 ---
 
-## 🧭 Lessons Learned
+## Lessons Learned
 - **Data processing matters most.**  
   It took significantly more time than modelling but had the biggest impact on performance.  
 
