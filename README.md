@@ -1,85 +1,70 @@
-# ML_Practice
-To demonstrate how I use machine learning (ML) and advanced analytics to solve business challenges.
+KMeans _Clustering
 
-# Car Price Prediction – Linear Regression
+Dieses Repository enthält ein Analyseprojekt zur K-Means-Clustering-Analyse am Beispiel von Online-Retail-Daten.
+Ziel ist es, Kundenverhalten zu segmentieren, Erkenntnisse zu gewinnen und daraus realistische Handlungsempfehlungen abzuleiten.
 
-## Goal of the Workbook
-The primary objective of this project was to **refresh and deepen my machine learning skills**, which I originally learned in 2022.  
-Using **Linear Regression** as the core algorithm, I revisited the complete ML workflow: from data processing and feature engineering to model training, evaluation, and interpretation.  
+I. Inhalt des Repositories
 
+- Kmeans_Customers_Segmentation.ipynb
+  Jupyter Notebook mit Implementierung des K-Means-Workflows: Datenaufbereitung, Auswahl geeigneter K-Werte, Clustering-Logik und Visualisierung.
+  Entscheidungen sowie Überlegungen sind in den Kommentaren dokumentiert, sodass jeder Schritt transparent nachvollziehbar ist.
 
-## Structure of the Workbook
-1. **Data Loading and Exploration**  
-   Inspect dataset structure, identify missing values, check distributions, and understand correlations between key features.
+- Kmeans_steps.txt
+  Übersicht über die Schritte, die im Notebook durchgeführt werden.
 
-2. **Feature Engineering and Preprocessing**  
-   - Derived new features such as `age` from `year`  
-   - Grouped brands (`make`) into top categories plus “Other”  
-   - Transformed fuel types into 5 generalized categories  
-   - Filled missing `engine_hp` values by vehicle size  
-   - One-hot encoded categorical features and dropped irrelevant or high-cardinality columns  
+- online_retail_II.xlsx
+  Datensatz mit Transaktionsdaten aus dem Bereich Online-Handel.
 
-3. **Model Training and Evaluation**  
-   - Target variable: `msrp` (Manufacturer’s Suggested Retail Price)  
-   - Log-transformed as `log1p(msrp)` to stabilize variance  
-   - Split data into train, validation, and test sets  
-   - Trained a Linear Regression model and evaluated performance using **MSE**, **RMSE**, **MAE**, and **R²** both in log-space and in real price scale  
+- requirements.txt
+  Enthält alle benötigten Python-Pakete (z. B. pandas, scikit-learn, matplotlib), um das Notebook lokal lauffähig zu machen.
 
-4. **Results Interpretation**  
-   - Examined coefficients and feature impact  
-   - Analyzed error magnitudes and residual distributions  
-   - Interpreted the model’s ability to generalize
+- .venv/
+  Virtuelle Umgebung für die lokale Entwicklung (in .gitignore ausgeschlossen).
 
-5. **Reflection and Lessons Learned**  
-   - Summarized what worked well and identified areas for improvement  
+II. Zusammenfassung: K-Means Kunden-Clustering
+1. Ziel der Analyse
 
----
+Wir wollten verstehen, wie sich unsere Kunden anhand ihres Kaufverhaltens unterscheiden lassen.
+Mit Hilfe von K-Means Clustering wurden Kundengruppen (Segmente) gebildet, die ähnliche Eigenschaften teilen.
+Das ermöglicht gezieltere Marketing- und Produktentscheidungen.
 
-## The Data
-I use a Kaggle dataset for this project, as my goal is to focus on practicing the machine learning workflow rather than generating or simulating data.
-Dataset link: [Kaggle – Car Dataset](https://www.kaggle.com/datasets/CooperUnion/cardataset)
+2. Vorgehen
 
-The target variable is **`msrp`** (price).  
-To make the relationship between features and price more linear, the target was log-transformed before training.
+Datenbasis: Transaktionsdaten aus dem Online-Handel (Bestellungen, Häufigkeit, Umsatz etc.).
 
-Feature engineering steps included:
-- Calculating **vehicle age**  
-- Grouping **brands** and **styles** into top categories  
-- Imputing missing values with median or mode logic  
-- One-hot encoding categorical features for model compatibility  
+Kennzahlen: Für jeden Kunden wurden drei zentrale Dimensionen berechnet:
 
----
+- Recency – Wie lange liegt der letzte Kauf zurück?
+- Frequency – Wie oft kauft ein Kunde?
+- Monetary Value – Wie viel Umsatz bringt ein Kunde?
 
-## Results Interpretation
-### Performance in Log-space  
-- **R²:** ~0.805 — model explains ~80% of log-price variance  
-- **RMSE (log):** 0.49 → predictions typically within a factor of ~1.6 of true price  
+Clustering: Mit dem Algorithmus K-Means wurden Kunden automatisch in Gruppen eingeteilt.
 
-### Performance in Real Price Scale  
-- **R²:** 0.562  
-- **RMSE:** ~€43,995  
-- **MAE:** ~€14,503  
+Interpretation & Handlungsempfehlung: Jede Kundengruppe wurde beschrieben und ihre Bedeutung fürs Geschäft eingeordnet. Auf Basis der RFM-Werte wurden Handlungsempfehlungen formuliert.
 
-**Interpretation:**  
-The model captures relative price differences well in the log-transformed space. However, after reversing the log transformation, the absolute prediction errors increase with higher car prices.
-This behavior is expected for linear regression when working with highly skewed price data, where luxury cars dominate the overall variance. I discussed possible solutions for this issue in the notebook.
+3. Ergebnisse
 
----
+Es wurden 7 Kundensegmente identifiziert:
 
-## Lessons Learned
-- **Data processing matters most.**  
-  It took significantly more time than modelling but had the biggest impact on performance.  
+- 4 Gruppen für „normale“ Kunden (non-outliers)
+- 3 Gruppen für Kunden mit besonders hohem Umsatz (outliers)
 
-- **Reusable preprocessing function helps.**  
-  Creating a `data_input()` function made experimentation much cleaner and reproducible. For future projects I plan to build a proper **`Pipeline`** using `sklearn.pipeline.Pipeline` and `ColumnTransformer` to ensure consistent preprocessing across train/validation/test splits.
+Outliers (sehr umsatzstarke Kunden) sollen gezielt gehalten werden.
 
-- **Technical debt:**  
-  Manually implementing LinearRegression
+Möglicher Business Impact:
 
-- **Model limitation:**  
-  Linear Regression performs well for general trends but struggles with non-linear relationships. Should experiment with other models.
+- Gezieltere Maßnahmen: Marketingbudgets können auf wertvolle Kundengruppen fokussiert werden.
+- Wachstumspotenzial: Umsatzsteigerung vor allem durch Stammkundenpflege und Rückgewinnung ehemals aktiver Käufer.
+- Effizienzsteigerung: Weniger Budgetverlust bei wenig lohnenden Kundengruppen.
 
+III. Weiterentwicklung
 
----
+Die Analyse basiert auf Transaktionsdaten eines Online-Shops, in dem Kunden wiederholt Bestellungen aufgeben können.
+Dieses Modell ist jedoch nicht auf jedes Geschäftsmodell übertragbar.
 
-**Repository:** [ML_Practice – Predicting Car Price (Linear Regression)](https://github.com/EmiTR/ML_Practice/blob/main/PredictingPrice_LinearRegression.ipynb)
+Beispiel:
+
+- Versandhandel: Wiederholungskäufe und Nachbestellungen sind typisch.
+- Banken/Finanzdienstleister: Ein Kreditkunde kehrt nicht regelmäßig zurück, um das gleiche Produkt erneut abzuschließen. Hier spielen andere Faktoren wie Prolongation (Vertragsverlängerung) oder Cross-Selling eine größere Rolle.
+
+Für jedes Geschäftsmodell müssen also geeignete Metriken neu definiert werden. Ein Beispiel mit Finanzdienstleister-Daten wird in einer separaten Analyse behandelt.
